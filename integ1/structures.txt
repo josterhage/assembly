@@ -1,0 +1,7 @@
+Rectangle:
+WORD    X-Coordinate    0
+WORD    Y-Coordinate    2
+WORD    Width           4
+WORD    Height          6
+BYTE    BORDER          8
+BYTE    FILL            9

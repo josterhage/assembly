@@ -1,0 +1,26 @@
+Draw rectangle:
+
+Draw border:
+Get address base:
+base = y1 * 40
+offset = x1 & 0xfff8    << CX
+offset >>= 3
+base += offset1         <-- This is the first address we write to in the video memory
+bitmask = 0xff
+bitmask >>= x1 & 0x0007
+di = 0
+write color to base + di
+bitmask = 0xff
+offset = x2 & 0xfff8
+offset >>= 3
+while(di < offset)
+    di++
+    write color to base + di
+
+bitmask = 0xff
+
+
+
+x % 8   = 5
+w       = 3
+endstate: bit-mask = 0b00011100
