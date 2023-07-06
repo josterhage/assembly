@@ -21,6 +21,8 @@ bitmask = 0xff
 
 
 
+
 x % 8   = 5
 w       = 3
-endstate: bit-mask = 0b00011100
+endstate:   top-row bit-mask = 0b00011100
+            mid-row bit-mask = 0b00001000
