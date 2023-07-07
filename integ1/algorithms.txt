@@ -26,3 +26,21 @@ x % 8   = 5
 w       = 3
 endstate:   top-row bit-mask = 0b00011100
             mid-row bit-mask = 0b00001000
+
+Step 1:
+top-mask = 0xff     0b11111111
+step 2:
+top-mask >>= 8-(x%8)    0b00011111
+step 3:
+fill-mask = top-mask >> 1    0b00001111
+step 4:
+end-mask n =    2^(x%8-w + 1) - 1
+                2^(5-3 + 1) - 1
+                2^3 - 1
+                7           0b00000111
+step 5:
+fill-mask ^= end-mask    0b00001111 ^ 0b00000111 = 0b00001000
+step 6:
+end-mask >>= 1          0b00000111 >> 1 = 0b00000011
+step 7:
+top-mask ^= end-mask   0b00011111 ^ 0b00000011 = 0b00011100
