@@ -168,9 +168,12 @@ draw_rect:              ; about 146h
     mov cx, [bp + 12]       ;cx = x-coord               17
     inc cx                  ; same as above
     and cx, 0x0007          ;cx = x % 8                 24
-    jz .build_masks         ;if there is no remainder we can leave 28   16dh
+    jz .byte_one_full         ;if there is no remainder we can leave 28   16dh
     mov ah, 0xff            ;8 full pixels              32
     shr ah, cl              ;clear empty pixels         40 + 4-28
+    jmp .build_masks
+.byte_one_full:
+    mov ax, 0x8000
 .build_masks:                        ; 173h
     mov al, 8
     push ax                 ; [bp - 4]  set leading bit-mask command
@@ -279,6 +282,8 @@ draw_rect:              ; about 146h
     ; set card to read mode 0 and write mode 2
     mov ax, VR_SET_MODE | VR_READ_MODE_0 | VR_WRITE_MODE_2
     out dx, ax
+    mov ax, VR_FUNCTION_SELECT | VR_COMPARISON_REPLACE
+    out dx, ax
     ; set card to replace pixel data with new data
     ;mov ax, VR_FUNCTION_SELECT | VR_COMPARISON_XOR
     ;out dx, ax
@@ -302,6 +307,7 @@ draw_rect:              ; about 146h
     mov al, VR_FUNCTION_SELECT
     out dx, ax
 .draw_middle_row:
+    mov al, es:[bx]         ; load the latch registers
     mov ax, [bp - 14]       ; get mid-row border leading-edge mask
     out dx, ax              ; write border leading-edge bit-mask to register
     mov ah, [bp + 5]        ; border color
@@ -310,6 +316,7 @@ draw_rect:              ; about 146h
     mov ax, 0xff01
     out dx, ax
     mov es:[bx], al            ; draw border
+    mov al, es:[bx]         ; load the latch registers
     mov ax, [bp - 6]        ; get fill leading-edge mask
     or ah, ah
     jz .prepare_middle_row_middle
@@ -340,8 +347,6 @@ draw_rect:              ; about 146h
     out dx, ax
     mov ax, VR_SET_MODE | VR_READ_MODE_0 | VR_WRITE_MODE_0
     out dx, ax
-    mov ax, VR_FUNCTION_SELECT | VR_COMPARISON_OR
-    out dx, ax
     mov ah, [bp + 4]         ; get fill color
     mov al, VR_SET_RESET
     out dx, ax
@@ -350,6 +355,7 @@ draw_rect:              ; about 146h
     inc di
     mov es:[bx + di], al
 .draw_middle_row_trail_border:
+    mov al, es:[bx + di]    ; load the latch registers?
     mov ax, [bp - 16]       ; get border trailing mask
     out dx, ax
     mov ah, [bp + 5]         ; get border color
@@ -371,7 +377,10 @@ draw_rect:              ; about 146h
     ret
 
 .draw_top_or_bottom:
-    ;assumes everything else is set
+    ;ensure the control register is set for read mode 0, write mode 2
+    mov al, es:[bx]         ; load latch registers?
+    mov ax, VR_SET_MODE | VR_READ_MODE_0 | VR_WRITE_MODE_2
+    out dx, ax
     mov ax, [bp - 4]
     out dx, ax
     mov al, [bp + 5]
