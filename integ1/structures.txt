@@ -1,7 +1,16 @@
-Rectangle:
-WORD    X-Coordinate    0
-WORD    Y-Coordinate    2
-WORD    Width           4
-WORD    Height          6
-BYTE    BORDER          8
-BYTE    FILL            9
+    WORD [BP + 0xE] - X Coordinate
+    WORD [BP + 0xC] - Y coordinate
+    WORD [BP + 0xA]  - Width in PX
+    WORD [BP + 0x8]  - Height in PX
+WORD-LSB [BP + 0x7]  - Border color  - passed as LSB of a word
+WORD-MSB [BP + 0x6]  - Fill Color    - passed as MSB of a word
+    WORD [BP + 0x4]  - Return Pointer
+    WORD [BP + 0x2]  - Old Base pointer
+    WORD [BP]        - memory offset of the rectangle's X,Y position
+WORD-LSB [BP - 0x2]  - (border) leading bit-mask
+WORD-MSB [BP - 0x3]  - (fill) leading bit-mask
+    WORD [BP - 0x4]  - width of box in bytes
+WORD-LSB [BP - 0x6]  - (border) trailing bit-mask
+WORD-MSB [BP - 0x7]  - (fill) trailing bit-mask
+WORD-LSB [BP - 0x8]  - (border) leading bit-mask: mid-rows
+WORD-MSB [BP - 0x9]  - (border) trailing bit-mask: mid-rows 

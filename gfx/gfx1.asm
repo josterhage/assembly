@@ -16,12 +16,12 @@ start:
 	xor bx, bx
 	add bx, 400
 	mov al, [bx] 
-	mov dx, 0x03CE
-	mov ax, 0x0205
+	mov dx, 0x03CE		; GRAPHICS CONTROL REGISTER
+	mov ax, 0x0205		; READ MODE 0, WRITE MODE 2
 	out dx, ax
-	mov ax, 0x0003
+	mov ax, 0x0003		; REPLACE MODE
 	out dx, ax
-	mov ax, 0xff08
+	mov ax, 0xff08		; BIT MASK
 	out dx, ax
 	mov al, 0xff
 	mov [bx], al

@@ -1,0 +1,32 @@
+
+15      ;FFFCh
+20      ;FFFAh
+25      ;FFF9h
+3       ;FFF7h
+12      ;FFF6h
+10      ;FFF4h
+0x011c  ;FFF2h
+0       ;FFF0h
+0x0321  ;FFEEh
+0x0108  ;FFECh
+0x0008  ;FFEAh
+0x0002  ;FFE8h
+0xff08  ;FFE6h
+0xfe08  ;FFE4h
+0x0108  ;FFE2h
+0x0108  ;FFE0h
+
+
+AX:     0x0108
+BX:     0x0008
+CX:     0x0000
+DX:     0x0320
+SI:     
+DI:     
+BP:     0xfff0
+SP:     0xfff0
+
+CS:     (def)
+DS:     (def)
+ES:     0x
+SS:     (def)
